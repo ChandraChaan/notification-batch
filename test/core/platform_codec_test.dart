@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:notification_batch/core/platform/batch_platform.dart';
 import 'package:notification_batch/core/platform/platform_codec.dart';
 import 'package:notification_batch/features/apps/domain/installed_app.dart';
+import 'package:notification_batch/features/stats/domain/batch_stats.dart';
 
 void main() {
   test('reads a full status', () {
@@ -63,5 +64,30 @@ void main() {
     expect(() => PlatformCodec.status('nope'), throwsA(isA<BatchPlatformException>()));
     expect(() => PlatformCodec.items(42), throwsA(isA<BatchPlatformException>()));
     expect(PlatformCodec.items(null), isEmpty);
+  });
+
+  test('reads stats and skips reasons it does not know', () {
+    final stats = PlatformCodec.stats({
+      'today': '2026-10-28',
+      'days': [
+        {
+          'date': '2026-10-28',
+          'held': {'com.example.shop': 3},
+          'letThrough': {'VERIFICATION_CODE': 2, 'FROM_THE_FUTURE': 1},
+        },
+      ],
+      'labels': {'com.example.shop': 'Shop'},
+    });
+    expect(stats.today, Day.parse('2026-10-28'));
+    expect(stats.days.single.held, {'com.example.shop': 3});
+    expect(stats.days.single.letThrough, {LetThroughReason.verificationCode: 2});
+    expect(stats.labels, {'com.example.shop': 'Shop'});
+  });
+
+  test('a stats reply with a bad date is a typed error', () {
+    expect(
+      () => PlatformCodec.stats({'today': 'soon', 'days': <Object?>[]}),
+      throwsA(isA<BatchPlatformException>()),
+    );
   });
 }

@@ -703,6 +703,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t save. Please try again.'**
   String get saveFailed;
+
+  /// No description provided for @navStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Stats'**
+  String get navStats;
+
+  /// No description provided for @statsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stats'**
+  String get statsTitle;
+
+  /// No description provided for @statsSavedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved today'**
+  String get statsSavedToday;
+
+  /// No description provided for @statsSavedWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved this week'**
+  String get statsSavedWeek;
+
+  /// No description provided for @statsInterruptions.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{interruption} other{interruptions}}'**
+  String statsInterruptions(int count);
+
+  /// No description provided for @statsLastSeven.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get statsLastSeven;
+
+  /// No description provided for @statsDayBar.
+  ///
+  /// In en, this message translates to:
+  /// **'{day}: {count, plural, =1{1 held} other{{count} held}}'**
+  String statsDayBar(String day, int count);
+
+  /// No description provided for @statsNoisiest.
+  ///
+  /// In en, this message translates to:
+  /// **'Noisiest apps this week'**
+  String get statsNoisiest;
+
+  /// No description provided for @statsAppCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 held} other{{count} held}}'**
+  String statsAppCount(int count);
+
+  /// No description provided for @statsLetThrough.
+  ///
+  /// In en, this message translates to:
+  /// **'Let through this week'**
+  String get statsLetThrough;
+
+  /// No description provided for @statsLetThroughBody.
+  ///
+  /// In en, this message translates to:
+  /// **'From batched apps, delivered straight away.'**
+  String get statsLetThroughBody;
+
+  /// No description provided for @statsLetThroughNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing from batched apps needed to skip the batch.'**
+  String get statsLetThroughNone;
+
+  /// No description provided for @statsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No numbers yet'**
+  String get statsEmptyTitle;
+
+  /// No description provided for @statsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Once batched apps send notifications, you\'ll see how many interruptions were saved.'**
+  String get statsEmptyBody;
+
+  /// No description provided for @statsPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Counts stay on this phone for five weeks: only numbers and app names, never what a notification said.'**
+  String get statsPrivacy;
+
+  /// No description provided for @reasonCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Calls'**
+  String get reasonCall;
+
+  /// No description provided for @reasonAlarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarms'**
+  String get reasonAlarm;
+
+  /// No description provided for @reasonFullScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen'**
+  String get reasonFullScreen;
+
+  /// No description provided for @reasonOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing'**
+  String get reasonOngoing;
+
+  /// No description provided for @reasonMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Media'**
+  String get reasonMedia;
+
+  /// No description provided for @reasonTimeSensitive.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders and events'**
+  String get reasonTimeSensitive;
+
+  /// No description provided for @reasonVerificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'One-time codes'**
+  String get reasonVerificationCode;
+
+  /// No description provided for @reasonUrgentWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent words'**
+  String get reasonUrgentWord;
+
+  /// No description provided for @reasonStarredContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Starred contacts'**
+  String get reasonStarredContact;
+
+  /// No description provided for @reasonNothingToShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty notifications'**
+  String get reasonNothingToShow;
+
+  /// No description provided for @reasonCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{reason}: {count}'**
+  String reasonCount(String reason, int count);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

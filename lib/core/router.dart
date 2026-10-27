@@ -10,6 +10,7 @@ import '../features/rules/presentation/rules_page.dart';
 import '../features/schedule/presentation/schedule_page.dart';
 import '../features/settings/presentation/settings_controller.dart';
 import '../features/shell/presentation/home_shell.dart';
+import '../features/stats/presentation/stats_page.dart';
 import '../features/status/presentation/status_controller.dart';
 import 'widgets/states.dart';
 
@@ -50,6 +51,9 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           StatefulShellBranch(
             routes: [GoRoute(path: '/rules', builder: (context, state) => const RulesPage())],
+          ),
+          StatefulShellBranch(
+            routes: [GoRoute(path: '/stats', builder: (context, state) => const StatsPage())],
           ),
         ],
       ),

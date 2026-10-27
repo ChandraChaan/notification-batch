@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import '../../features/apps/domain/installed_app.dart';
 import '../../features/inbox/domain/held_item.dart';
 import '../../features/settings/domain/batch_settings.dart';
+import '../../features/stats/domain/batch_stats.dart';
 import '../../features/status/domain/batch_status.dart';
 import 'batch_platform.dart';
 import 'platform_codec.dart';
@@ -46,6 +47,9 @@ class MethodChannelBatchPlatform implements BatchPlatform {
 
   @override
   Future<void> deliverNow() => _call<void>('deliverNow');
+
+  @override
+  Future<StatsSnapshot> stats() async => PlatformCodec.stats(await _call<Object?>('getStats'));
 
   @override
   Future<bool> openItem(String id) async => await _call<bool>('openItem', id) ?? false;

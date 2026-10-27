@@ -7,6 +7,7 @@ import 'package:notification_batch/features/onboarding/presentation/welcome_page
 import 'package:notification_batch/features/rules/presentation/rules_page.dart';
 import 'package:notification_batch/features/schedule/presentation/schedule_page.dart';
 import 'package:notification_batch/features/settings/domain/batch_settings.dart';
+import 'package:notification_batch/features/stats/presentation/stats_page.dart';
 import 'package:notification_batch/features/status/domain/batch_status.dart';
 
 import '../support/fake_batch_platform.dart';
@@ -21,6 +22,7 @@ void main() {
     'apps': const AppsPage(),
     'schedule': const SchedulePage(),
     'rules': const RulesPage(),
+    'stats': const StatsPage(),
   };
 
   for (final MapEntry(key: name, value: screen) in screens.entries) {

@@ -4,7 +4,6 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
-import java.io.IOException
 import java.time.Clock
 import java.time.Duration
 
@@ -44,16 +43,14 @@ data class HeldItem(
 }
 
 /**
- * Settings and held notifications, kept as two small JSON files in the app's private storage.
- *
- * Every write goes to a temporary file first and is then renamed over the old one, so a crash
- * mid-write leaves the previous version intact. Settings live in their own file so a damaged
- * inbox can never reset the user's choices. All methods are thread-safe.
+ * Settings and held notifications, kept as two small [JsonFile]s in the app's private storage.
+ * Settings live in their own file so a damaged inbox can never reset the user's choices.
+ * All methods are thread-safe.
  */
 class BatchStore(private val dir: File, private val clock: Clock = Clock.systemUTC()) {
     private val lock = Any()
-    private val settingsFile = File(dir, "settings.json")
-    private val inboxFile = File(dir, "inbox.json")
+    private val settingsFile = JsonFile(File(dir, "settings.json"))
+    private val inboxFile = JsonFile(File(dir, "inbox.json"))
 
     private var settings: BatchSettings = readSettings()
     private var held: List<HeldItem>
@@ -72,7 +69,7 @@ class BatchStore(private val dir: File, private val clock: Clock = Clock.systemU
     fun saveSettings(newSettings: BatchSettings) =
         synchronized(lock) {
             settings = newSettings
-            write(settingsFile, newSettings.toJson())
+            settingsFile.write(newSettings.toJson())
         }
 
     /** Newest first. */
@@ -116,8 +113,7 @@ class BatchStore(private val dir: File, private val clock: Clock = Clock.systemU
     }
 
     private fun writeInbox() {
-        write(
-            inboxFile,
+        inboxFile.write(
             JSONObject()
                 .put("version", 1)
                 .put("held", JSONArray(held.map(HeldItem::toJson)))
@@ -127,10 +123,10 @@ class BatchStore(private val dir: File, private val clock: Clock = Clock.systemU
     }
 
     private fun readSettings(): BatchSettings =
-        readJson(settingsFile)?.let(BatchSettings::fromJson) ?: BatchSettings()
+        settingsFile.read()?.let(BatchSettings::fromJson) ?: BatchSettings()
 
     private fun readInbox(): Inbox {
-        val json = readJson(inboxFile) ?: return Inbox()
+        val json = inboxFile.read() ?: return Inbox()
         return try {
             Inbox(
                 held = json.optJSONArray("held").items(),
@@ -138,37 +134,8 @@ class BatchStore(private val dir: File, private val clock: Clock = Clock.systemU
                 lastDeliveryAt = if (json.isNull("lastDeliveryAt")) null else json.optLong("lastDeliveryAt"),
             )
         } catch (e: JSONException) {
-            keepDamaged(inboxFile, e)
+            inboxFile.setAside(e)
             Inbox()
-        }
-    }
-
-    private fun readJson(file: File): JSONObject? {
-        if (!file.exists()) return null
-        return try {
-            JSONObject(file.readText())
-        } catch (e: JSONException) {
-            keepDamaged(file, e)
-            null
-        } catch (e: IOException) {
-            keepDamaged(file, e)
-            null
-        }
-    }
-
-    /** A damaged file is renamed, not deleted, so it can still be looked at. */
-    private fun keepDamaged(file: File, cause: Exception) {
-        System.err.println("Notification Batch: ${file.name} could not be read (${cause.javaClass.simpleName})")
-        file.renameTo(File(dir, "${file.name}.damaged"))
-    }
-
-    private fun write(file: File, json: JSONObject) {
-        dir.mkdirs()
-        val temp = File(dir, "${file.name}.tmp")
-        temp.writeText(json.toString())
-        if (!temp.renameTo(file)) {
-            file.delete()
-            if (!temp.renameTo(file)) throw IOException("Could not replace ${file.name}")
         }
     }
 

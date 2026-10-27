@@ -1,5 +1,6 @@
 import '../../features/apps/domain/installed_app.dart';
 import '../../features/inbox/domain/held_item.dart';
+import '../../features/stats/domain/batch_stats.dart';
 import '../../features/status/domain/batch_status.dart';
 import 'batch_platform.dart';
 
@@ -47,6 +48,41 @@ abstract final class PlatformCodec {
           isDefaultDialer: map['isDefaultDialer'] == true,
         ),
   ];
+
+  static StatsSnapshot stats(Object? raw) {
+    final map = _map(raw);
+    try {
+      return StatsSnapshot(
+        today: Day.parse(map['today'] as String? ?? ''),
+        days: [
+          for (final item in _list(map['days']))
+            if (_map(item) case final day)
+              DayStats(
+                day: Day.parse(day['date'] as String? ?? ''),
+                held: _counts(day['held']),
+                letThrough: {
+                  for (final MapEntry(key: name, value: count) in _counts(
+                    day['letThrough'],
+                  ).entries)
+                    ?LetThroughReason.fromName(name): count,
+                },
+              ),
+        ],
+        labels: {
+          for (final MapEntry(:key, :value) in (map['labels'] as Map? ?? const {}).entries)
+            if (key is String && value is String) key: value,
+        },
+      );
+    } on FormatException {
+      throw const BatchPlatformException('unexpected_reply');
+    }
+  }
+
+  static Map<String, int> _counts(Object? raw) => {
+    if (raw is Map)
+      for (final MapEntry(:key, :value) in raw.entries)
+        if (key is String && value is num) key: value.toInt(),
+  };
 
   static DateTime? _time(Object? millis) =>
       millis is num ? DateTime.fromMillisecondsSinceEpoch(millis.toInt(), isUtc: true) : null;

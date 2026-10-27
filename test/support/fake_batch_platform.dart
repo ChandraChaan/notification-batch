@@ -5,6 +5,7 @@ import 'package:notification_batch/core/platform/batch_platform.dart';
 import 'package:notification_batch/features/apps/domain/installed_app.dart';
 import 'package:notification_batch/features/inbox/domain/held_item.dart';
 import 'package:notification_batch/features/settings/domain/batch_settings.dart';
+import 'package:notification_batch/features/stats/domain/batch_stats.dart';
 import 'package:notification_batch/features/status/domain/batch_status.dart';
 
 /// An in-memory Android. Set fields to shape what the UI sees; read the logs to check calls.
@@ -15,13 +16,15 @@ class FakeBatchPlatform implements BatchPlatform {
     this.heldItems = const [],
     this.deliveredItems = const [],
     this.apps = const [],
-  });
+    StatsSnapshot? statsSnapshot,
+  }) : statsSnapshot = statsSnapshot ?? StatsSnapshot(today: Day.parse('2026-10-27'));
 
   BatchStatus currentStatus;
   BatchSettings currentSettings;
   List<HeldItem> heldItems;
   List<HeldItem> deliveredItems;
   List<InstalledApp> apps;
+  StatsSnapshot statsSnapshot;
 
   /// When set, every call fails with this code.
   String? failWith;
@@ -74,6 +77,9 @@ class FakeBatchPlatform implements BatchPlatform {
     deliveredItems = [...heldItems, ...deliveredItems];
     heldItems = const [];
   });
+
+  @override
+  Future<StatsSnapshot> stats() => _answer('stats', () => statsSnapshot);
 
   @override
   Future<bool> openItem(String id) => _answer('openItem', () {

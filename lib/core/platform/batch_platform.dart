@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import '../../features/apps/domain/installed_app.dart';
 import '../../features/inbox/domain/held_item.dart';
 import '../../features/settings/domain/batch_settings.dart';
+import '../../features/stats/domain/batch_stats.dart';
 import '../../features/status/domain/batch_status.dart';
 
 /// Everything the app needs from Android. The notification listener, the store and the alarms
@@ -23,6 +24,9 @@ abstract interface class BatchPlatform {
   Future<List<HeldItem>> delivered();
 
   Future<void> deliverNow();
+
+  /// Daily counts for the last five weeks.
+  Future<StatsSnapshot> stats();
 
   /// Opens what the notification pointed at, or its app. False if neither is possible.
   Future<bool> openItem(String id);

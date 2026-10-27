@@ -46,6 +46,9 @@ void main() {
     await tester.tap(find.text('Let through'));
     await tester.pumpAndSettle();
     expect(find.text('Always let through'), findsOneWidget);
+    await tester.tap(find.text('Stats'));
+    await tester.pumpAndSettle();
+    expect(find.text('No numbers yet'), findsOneWidget);
   });
 
   testWidgets('a failure on start offers a retry', (tester) async {

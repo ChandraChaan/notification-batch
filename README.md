@@ -15,7 +15,7 @@ Calls, alarms, one-time codes and anything you mark as urgent still come through
 <img src="doc/screenshots/inbox.png" width="200" alt="Inbox: next delivery at 13:00, six held notifications grouped by app">
 <img src="doc/screenshots/setup.png" width="200" alt="First run: suggested apps to batch, all ticked">
 <img src="doc/screenshots/rules.png" width="200" alt="Always let through: calls, codes, ongoing things, starred contacts and urgent words">
-<img src="doc/screenshots/schedule.png" width="200" alt="Delivery times 09:00, 13:00 and 19:00">
+<img src="doc/screenshots/stats.png" width="200" alt="Stats: 18 interruptions saved today, 201 this week, a bar per day and the noisiest apps">
 
 </div>
 
@@ -69,6 +69,9 @@ settings**, and try again. The app walks you through this too.
   - messages from your starred contacts, if you turn that on;
   - anything with one of your **urgent words** (for example "delivered", "gate change" or a name).
     You can also mark a held item as urgent straight from the inbox.
+- **Stats:** interruptions saved today and over the last seven days, a bar per day, the
+  noisiest apps, and what was let through and why. Only counts and app names are kept, for five
+  weeks.
 - **Pause** with one switch, or **Deliver now** whenever you like.
 - **An in-app inbox** shows what is held and what was delivered in the last two days.
 
@@ -106,6 +109,7 @@ Other permissions, all optional except the first:
 - No ads, no analytics, no crash reporting, no account.
 - Held notifications are stored in the app's private storage and are excluded from cloud backup
   and device transfer. Delivered items are kept for two days so you can find them in the inbox.
+- Stats are daily counts per app, kept for five weeks. They never include what a notification said.
 - Uninstalling the app deletes everything it stored.
 
 ## How it works
@@ -196,9 +200,10 @@ lib/
     apps/               App picker and the suggestion rules
     schedule/           Delivery times
     rules/              What is always let through
+    stats/              Interruptions saved, noisiest apps
     onboarding/         Permission explanation and first-run app picker
 android/app/src/main/kotlin/io/github/chandrachaan/notification_batch/
-  core/                 Pure Kotlin: policy, code detection, schedule, store
+  core/                 Pure Kotlin: policy, code detection, schedule, stores
   platform/             Listener service, alarms, batch notification, channel bridge
 spec/settings.json      Settings format shared by the Dart and Kotlin tests
 ```
