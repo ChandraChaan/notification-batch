@@ -17,9 +17,11 @@ import io.github.chandrachaan.notification_batch.core.BatchStore
 import io.github.chandrachaan.notification_batch.core.Decision
 import io.github.chandrachaan.notification_batch.core.DeliverySchedule
 import io.github.chandrachaan.notification_batch.core.HeldItem
+import io.github.chandrachaan.notification_batch.core.StatsStore
 import java.io.File
 import java.lang.ref.WeakReference
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
 import java.util.concurrent.CopyOnWriteArraySet
 import java.util.concurrent.ExecutorService
@@ -32,6 +34,7 @@ import java.util.concurrent.Executors
 class BatchRuntime private constructor(context: Context) {
     private val context: Context = context.applicationContext
     val store = BatchStore(File(this.context.filesDir, "batch"))
+    val stats = StatsStore(File(this.context.filesDir, "batch"))
     val executor: ExecutorService = Executors.newSingleThreadExecutor { Thread(it, "notification-batch") }
     private val liveIntents = LiveIntents()
     private val starred = StarredContactsReader(this.context)
@@ -77,8 +80,13 @@ class BatchRuntime private constructor(context: Context) {
             FactsReader.read(sbn) { senders ->
                 settings.letStarredContactsThrough && starred.isStarred(senders)
             }
-        when (BatchPolicy.decide(facts, settings, context.packageName)) {
-            Decision.NotBatched, is Decision.LetThrough -> Unit
+        val today = LocalDate.now(ZoneId.systemDefault())
+        when (val decision = BatchPolicy.decide(facts, settings, context.packageName)) {
+            Decision.NotBatched -> Unit
+            is Decision.LetThrough -> {
+                stats.recordLetThrough(today, decision.reason)
+                notifyChanged()
+            }
             Decision.Hold -> {
                 val item =
                     HeldItem(
@@ -91,7 +99,10 @@ class BatchRuntime private constructor(context: Context) {
                         postedAt = sbn.postTime,
                     )
                 // Store first, remove second: a crash in between leaves a duplicate, never a loss.
-                store.hold(item)
+                val isNew = store.hold(item)
+                // An update that wouldn't have buzzed again (a progress bar, a counter) isn't a saved interruption.
+                val wouldAlert = sbn.notification.flags and Notification.FLAG_ONLY_ALERT_ONCE == 0
+                if (isNew || wouldAlert) stats.recordHeld(today, item.packageName, item.appLabel)
                 sbn.notification.contentIntent?.let { liveIntents.put(item.id, it) }
                 listener.cancelNotification(sbn.key)
                 removeEmptySummary(listener, sbn)

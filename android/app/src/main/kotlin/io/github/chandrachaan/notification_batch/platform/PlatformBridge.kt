@@ -74,6 +74,7 @@ class PlatformBridge(private val activity: Activity, messenger: BinaryMessenger)
             "getHeld" -> background(result) { runtime.store.held().map(::itemMap) }
             "getDelivered" -> background(result) { runtime.store.delivered().map(::itemMap) }
             "deliverNow" -> background(result) { runtime.deliver() }
+            "getStats" -> background(result) { stats() }
             "openItem" -> {
                 val id = call.arguments as? String ?: return result.error("bad_args", "Expected an id", null)
                 background(result) { runtime.open(id) }
@@ -134,6 +135,20 @@ class PlatformBridge(private val activity: Activity, messenger: BinaryMessenger)
             "lastDeliveryAt" to runtime.store.lastDeliveryAt(),
         )
     }
+
+    private fun stats(): Map<String, Any> =
+        mapOf(
+            "today" to java.time.LocalDate.now().toString(),
+            "days" to
+                runtime.stats.days().map { day ->
+                    mapOf(
+                        "date" to day.date.toString(),
+                        "held" to day.held,
+                        "letThrough" to day.letThrough.mapKeys { it.key.name },
+                    )
+                },
+            "labels" to runtime.stats.labels(),
+        )
 
     private fun itemMap(item: HeldItem): Map<String, Any> =
         mapOf(

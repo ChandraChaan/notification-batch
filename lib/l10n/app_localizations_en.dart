@@ -379,4 +379,110 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveFailed => 'Couldn\'t save. Please try again.';
+
+  @override
+  String get navStats => 'Stats';
+
+  @override
+  String get statsTitle => 'Stats';
+
+  @override
+  String get statsSavedToday => 'Saved today';
+
+  @override
+  String get statsSavedWeek => 'Saved this week';
+
+  @override
+  String statsInterruptions(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'interruptions',
+      one: 'interruption',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statsLastSeven => 'Last 7 days';
+
+  @override
+  String statsDayBar(String day, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count held',
+      one: '1 held',
+    );
+    return '$day: $_temp0';
+  }
+
+  @override
+  String get statsNoisiest => 'Noisiest apps this week';
+
+  @override
+  String statsAppCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count held',
+      one: '1 held',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statsLetThrough => 'Let through this week';
+
+  @override
+  String get statsLetThroughBody => 'From batched apps, delivered straight away.';
+
+  @override
+  String get statsLetThroughNone => 'Nothing from batched apps needed to skip the batch.';
+
+  @override
+  String get statsEmptyTitle => 'No numbers yet';
+
+  @override
+  String get statsEmptyBody =>
+      'Once batched apps send notifications, you\'ll see how many interruptions were saved.';
+
+  @override
+  String get statsPrivacy =>
+      'Counts stay on this phone for five weeks: only numbers and app names, never what a notification said.';
+
+  @override
+  String get reasonCall => 'Calls';
+
+  @override
+  String get reasonAlarm => 'Alarms';
+
+  @override
+  String get reasonFullScreen => 'Full screen';
+
+  @override
+  String get reasonOngoing => 'Ongoing';
+
+  @override
+  String get reasonMedia => 'Media';
+
+  @override
+  String get reasonTimeSensitive => 'Reminders and events';
+
+  @override
+  String get reasonVerificationCode => 'One-time codes';
+
+  @override
+  String get reasonUrgentWord => 'Urgent words';
+
+  @override
+  String get reasonStarredContact => 'Starred contacts';
+
+  @override
+  String get reasonNothingToShow => 'Empty notifications';
+
+  @override
+  String reasonCount(String reason, int count) {
+    return '$reason: $count';
+  }
 }

@@ -39,6 +39,11 @@ class HomeShell extends StatelessWidget {
             selectedIcon: const Icon(Icons.verified),
             label: l10n.navRules,
           ),
+          NavigationDestination(
+            icon: const Icon(Icons.insights_outlined),
+            selectedIcon: const Icon(Icons.insights),
+            label: l10n.navStats,
+          ),
         ],
       ),
     );

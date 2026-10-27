@@ -16,6 +16,8 @@ import 'package:notification_batch/features/rules/presentation/rules_page.dart';
 import 'package:notification_batch/features/schedule/presentation/schedule_page.dart';
 import 'package:notification_batch/features/settings/domain/batch_settings.dart';
 import 'package:notification_batch/features/settings/domain/delivery_time.dart';
+import 'package:notification_batch/features/stats/domain/batch_stats.dart';
+import 'package:notification_batch/features/stats/presentation/stats_page.dart';
 import 'package:notification_batch/features/status/domain/batch_status.dart';
 
 import '../test/support/fake_batch_platform.dart';
@@ -104,6 +106,39 @@ FakeBatchPlatform _platform() => FakeBatchPlatform(
     ),
   ],
   apps: sampleApps,
+  statsSnapshot: StatsSnapshot(
+    today: Day.parse('2026-10-27'),
+    days: [
+      for (final (offset, shop, food, game, feed) in [
+        (6, 9, 4, 7, 12),
+        (5, 6, 6, 9, 10),
+        (4, 11, 3, 5, 14),
+        (3, 4, 5, 8, 9),
+        (2, 7, 8, 12, 16),
+        (1, 3, 2, 6, 7),
+        (0, 5, 3, 4, 6),
+      ])
+        DayStats(
+          day: Day.parse('2026-10-27').minusDays(offset),
+          held: {
+            'com.example.cartwheel.shopping': shop,
+            'com.example.tiffin.food': food,
+            'com.example.dragons': game,
+            'com.example.picnic': feed,
+          },
+          letThrough: {
+            if (offset.isEven) LetThroughReason.verificationCode: 1,
+            if (offset == 2) LetThroughReason.urgentWord: 2,
+          },
+        ),
+    ],
+    labels: const {
+      'com.example.cartwheel.shopping': 'Cartwheel Shopping',
+      'com.example.tiffin.food': 'Tiffin Express',
+      'com.example.dragons': 'Dragon Merge',
+      'com.example.picnic': 'Picnic',
+    },
+  ),
 );
 
 void main() {
@@ -119,6 +154,7 @@ void main() {
     'apps': (const AppsPage(), _platform),
     'schedule': (const SchedulePage(), _platform),
     'rules': (const RulesPage(), _platform),
+    'stats': (const StatsPage(), _platform),
   };
 
   for (final MapEntry(key: name, value: (screen, platform)) in screens.entries) {
