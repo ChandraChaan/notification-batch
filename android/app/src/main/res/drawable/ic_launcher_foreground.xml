@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A small stack of cards: notifications gathered into one batch. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.45"
+        android:pathData="M40,30h28a4,4 0,0 1,4 4v12h-36v-12a4,4 0,0 1,4 -4z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.72"
+        android:pathData="M36,37h36a4,4 0,0 1,4 4v13h-44v-13a4,4 0,0 1,4 -4z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M33,45h42a5,5 0,0 1,5 5v23a5,5 0,0 1,-5 5h-42a5,5 0,0 1,-5 -5v-23a5,5 0,0 1,5 -5z" />
+    <path
+        android:fillColor="#0B5D63"
+        android:pathData="M37,54h22a2,2 0,0 1,0 4h-22a2,2 0,0 1,0 -4z M37,63h14a2,2 0,0 1,0 4h-14a2,2 0,0 1,0 -4z" />
+    <path
+        android:fillColor="#F2A541"
+        android:pathData="M70,61m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+</vector>

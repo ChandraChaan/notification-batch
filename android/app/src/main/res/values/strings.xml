@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notification Batch</string>
+    <string name="listener_label">Notification Batch</string>
+    <string name="channel_batches_name">Batches</string>
+    <string name="channel_batches_description">Held notifications, delivered together at the times you chose.</string>
+    <plurals name="batch_summary_title">
+        <item quantity="one">%d held notification</item>
+        <item quantity="other">%d held notifications</item>
+    </plurals>
+    <plurals name="batch_summary_more">
+        <item quantity="one">+%d more in the app</item>
+        <item quantity="other">+%d more in the app</item>
+    </plurals>
+</resources>

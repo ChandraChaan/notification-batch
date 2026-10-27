@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "batchedPackages": ["com.example.games", "com.example.shop"],
+  "deliveryMinutes": [540, 780, 1140],
+  "paused": false,
+  "urgentWords": ["flight", "delivered"],
+  "letStarredContactsThrough": true,
+  "setupDone": true
+}

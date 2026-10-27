@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Status bar icon: the same stack of cards, in one colour as Android requires. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M7,3h10a1.5,1.5 0,0 1,1.5 1.5v0.5h-13v-0.5a1.5,1.5 0,0 1,1.5 -1.5z M5.5,6.5h13a1.5,1.5 0,0 1,1.5 1.5v0.5h-16v-0.5a1.5,1.5 0,0 1,1.5 -1.5z M4,10h16a2,2 0,0 1,2 2v7a2,2 0,0 1,-2 2h-16a2,2 0,0 1,-2 -2v-7a2,2 0,0 1,2 -2z" />
+</vector>
