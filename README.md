@@ -58,6 +58,10 @@ settings**, and try again. The app walks you through this too.
 - **Delivers at your times.** One summary notification that expands to the held items. Tap an item
   to open what the original notification pointed at, or its app if Android no longer allows that.
   Items you don't open roll into the next batch.
+
+  <img src="doc/screenshots/batch-notification.png" width="420" alt="A delivered batch in the Android notification shade: one Notification Batch entry holding three items">
+
+  *A real batch on an Android emulator, from test notifications.*
 - **Always lets through:**
   - calls, alarms and anything that opens full screen;
   - one-time codes (OTPs, verification codes, login PINs), see [the rule](#how-one-time-codes-are-spotted);

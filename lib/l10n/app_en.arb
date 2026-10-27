@@ -86,7 +86,7 @@
   "kindGames": "Game",
   "kindSocial": "Social",
   "kindMessaging": "Messages from people: best left alone",
-  "kindImportant": "Money, time or travel: best left alone",
+  "kindImportant": "Usually important: best left alone",
   "batchApp": "Batch {app}",
   "@batchApp": {"placeholders": {"app": {"type": "String"}}},
 

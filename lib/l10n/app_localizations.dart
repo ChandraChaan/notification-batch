@@ -515,7 +515,7 @@ abstract class AppLocalizations {
   /// No description provided for @kindImportant.
   ///
   /// In en, this message translates to:
-  /// **'Money, time or travel: best left alone'**
+  /// **'Usually important: best left alone'**
   String get kindImportant;
 
   /// No description provided for @batchApp.

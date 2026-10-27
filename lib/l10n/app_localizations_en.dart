@@ -274,7 +274,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get kindMessaging => 'Messages from people: best left alone';
 
   @override
-  String get kindImportant => 'Money, time or travel: best left alone';
+  String get kindImportant => 'Usually important: best left alone';
 
   @override
   String batchApp(String app) {
